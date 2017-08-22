@@ -8,14 +8,14 @@ app.listen(port, () => {
 })
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-app.put('/readfile', (req, res) => {
-  console.log(req.params);
-  console.log(req.body);
-  res.send(req.body)
+app.post('/readfile', (req, res) => {
+  var result = parseText(req.body.data);
+  console.log(result);
+  res.send(result);
   //place parse text call in here
   //send file back to client
 })

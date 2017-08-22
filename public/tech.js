@@ -26,17 +26,22 @@ const inputFile = document.querySelector('.input-file');
 
 const sendFile = function(file) {
   fetch('/readfile', {
-    method: 'put',
-    body: JSON.stringify(file)
+    method: 'post',
+    body: JSON.stringify({data: file}),
+    headers: {
+      'Content-Type': 'application/json'
+    }  
   })
     .then((response) => {
-      console.log(response);
-      // response.forEach(el => {
-      //   var occurence = document.createElement('div')
-      //   var word = document.createElement('span').textContent = `${el.word}: ${el.count}`;
-      //   occurence.append(word);
-      //   container.append(occurence);
-      // })
+      return response.json();
+    })
+    .then((result) => {
+      result.forEach(el => {
+        var occurence = document.createElement('div')
+        var word = document.createElement('span').textContent = `${el.word}: ${el.count}`;
+        occurence.append(word);
+        container.append(occurence);
+      })
     })
 }
 //listens for click on readfile then fires off readFile function
