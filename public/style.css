@@ -1,5 +1,5 @@
 .container {
-  width: 400px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   border: 1px black solid;
@@ -7,6 +7,5 @@
 
 .row {
     display: flex;
-    justify-content: flex-start;
-    flex-wrap: 1;
+    justify-content: space-between
 }

@@ -40,8 +40,8 @@ const sendFile = function(file) {
     .then((result) => {
       result.forEach(el => {
         var row = document.createElement('div');
-        var word = document.createElement('span');
-        var count = document.createElement('span');
+        var word = document.createElement('div');
+        var count = document.createElement('div');
         row.append(word);
         row.append(count);
         container.append(row);
