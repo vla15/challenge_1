@@ -20,7 +20,9 @@
 
 
 //selecting dom elements
+const wordCol = document.querySelector('.word');
 const container = document.querySelector('.container');
+const countCol = document.querySelector('.count');
 const readFileBtn = document.querySelector('.read');
 const inputFile = document.querySelector('.input-file');
 
@@ -37,10 +39,15 @@ const sendFile = function(file) {
     })
     .then((result) => {
       result.forEach(el => {
-        var occurence = document.createElement('div')
-        var word = document.createElement('span').textContent = `${el.word}: ${el.count}`;
-        occurence.append(word);
-        container.append(occurence);
+        var row = document.createElement('div');
+        var word = document.createElement('span');
+        var count = document.createElement('span');
+        row.append(word);
+        row.append(count);
+        container.append(row);
+        word.textContent = el.word;
+        row.classList.add('row');
+        count.textContent = el.count;
       })
     })
 }

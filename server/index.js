@@ -16,6 +16,4 @@ app.post('/readfile', (req, res) => {
   var result = parseText(req.body.data);
   console.log(result);
   res.send(result);
-  //place parse text call in here
-  //send file back to client
 })
