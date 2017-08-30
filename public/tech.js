@@ -37,46 +37,56 @@ const sendFile = function(file) {
       return response.json();
     })
     .then((result) => {
-      var canvas = d3.select('.graphs').append('svg')
-        .attr('width', 1000)
-        .attr('height', 700);
-      canvas.selectAll('rect')
-        .data(result)
-        .enter()
-        .append('rect')
-        .attr('width', (d) => {
-          return d.count * 100;
-        })
-        .attr('height', 50)
-        .attr('y', (d, i) => {
-          return i * 80;
-        })
-        .attr('fill', 'red');
-      canvas.selectAll('text')
-        .data(result)
-        .enter()
-        .append('text')
-        .attr('fill', '#FFFFFF')
-        .attr('y', (d, i) => {
-          return i * 80 + 25;
-        })
-        .attr('x', 5)
-        .text(function (d) {
-          return `"${d.word}" has a count of ${d.count}`
-        });
-      result.forEach(el => {
-        var row = document.createElement('div');
-        var word = document.createElement('div');
-        var count = document.createElement('div');
-        row.append(word);
-        row.append(count);
-        container.append(row);
-        word.textContent = el.word;
-        row.classList.add('row');
-        count.textContent = el.count;
-      })
+      renderTable(result);
+      renderBarChart(result);
     })
+
 }
+
+const renderTable = (result) => {
+  result.forEach(el => {
+    var row = document.createElement('div');
+    var word = document.createElement('div');
+    var count = document.createElement('div');
+    row.append(word);
+    row.append(count);
+    container.append(row);
+    word.textContent = el.word;
+    row.classList.add('row');
+    count.textContent = el.count;
+  })
+}
+
+const renderBarChart = (result) => {
+  var canvas = d3.select('.graphs').append('svg')
+      .attr('width', 1000)
+      .attr('height', 700);
+    canvas.selectAll('rect')
+      .data(result)
+      .enter()
+      .append('rect')
+      .attr('width', (d) => {
+        return d.count * 200;
+      })
+      .attr('height', 50)
+      .attr('y', (d, i) => {
+        return i * 80;
+      })
+      .attr('fill', 'red');
+    canvas.selectAll('text')
+      .data(result)
+      .enter()
+      .append('text')
+      .attr('fill', '#000000')
+      .attr('y', (d, i) => {
+        return i * 80 + 30;
+      })
+      .attr('x', 5)
+      .text(function (d) {
+        return `"${d.word}" has a count of ${d.count}`
+      });
+}
+
 //listens for click on readfile then fires off readFile function
 readFileBtn.addEventListener('click', () => {
   var inputFile = document.querySelector('.input-file');
