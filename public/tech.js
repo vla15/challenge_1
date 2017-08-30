@@ -1,31 +1,10 @@
-// In this question, you are free to use your favorite programming language among Python, Scala, Java, and JavaScript.
-// Design and implement a computer program that receives a text file as input, and outputs each unique word in the file followed by its number of
-// occurrences in the file.
-// Ignore capitalization and punctuation. For example, "this" and "This", "it's" and "its", and "cats'" and "cats" should count as the same word. State
-// any other assumptions you make about the input.
-// The output should be sorted in descending order by the number of occurrences, and in ascending order by words.
-// Example:
-// Contents of input.txt:
-// "This is a test example. A short example of a valid input."
-// Output:
-// a 3
-// example 2
-// input 1
-// is 1
-// of 1
-// short 1
-// test 1
-// this 1
-// valid 1
+var wordCol = document.querySelector('.word');
+var container = document.querySelector('.container');
+var countCol = document.querySelector('.count');
+var readFileBtn = document.querySelector('.read');
+var inputFile = document.querySelector('.input-file');
 
-//selecting dom elements
-const wordCol = document.querySelector('.word');
-const container = document.querySelector('.container');
-const countCol = document.querySelector('.count');
-const readFileBtn = document.querySelector('.read');
-const inputFile = document.querySelector('.input-file');
-
-const sendFile = function(file) {
+var sendFile = function(file) {
   fetch('/readfile', {
     method: 'post',
     body: JSON.stringify({data: file}),
@@ -33,18 +12,18 @@ const sendFile = function(file) {
       'Content-Type': 'application/json'
     }  
   })
-    .then((response) => {
+    .then(function (response) {
       return response.json();
     })
-    .then((result) => {
+    .then(function (result) {
       renderTable(result);
       renderBarChart(result);
     })
 
 }
 
-const renderTable = (result) => {
-  result.forEach(el => {
+var renderTable = function (result) {
+  result.forEach(function(el) {
     var row = document.createElement('div');
     var word = document.createElement('div');
     var count = document.createElement('div');
@@ -57,7 +36,7 @@ const renderTable = (result) => {
   })
 }
 
-const renderBarChart = (result) => {
+var renderBarChart = function (result) {
   var canvas = d3.select('.graphs').append('svg')
       .attr('width', 1000)
       .attr('height', 700);
@@ -65,11 +44,11 @@ const renderBarChart = (result) => {
       .data(result)
       .enter()
       .append('rect')
-      .attr('width', (d) => {
+      .attr('width', function (d) {
         return d.count * 200;
       })
       .attr('height', 50)
-      .attr('y', (d, i) => {
+      .attr('y', function (d, i) {
         return i * 80;
       })
       .attr('fill', 'red');
@@ -78,24 +57,24 @@ const renderBarChart = (result) => {
       .enter()
       .append('text')
       .attr('fill', '#000000')
-      .attr('y', (d, i) => {
+      .attr('y', function (d, i) {
         return i * 80 + 30;
       })
       .attr('x', 5)
       .text(function (d) {
-        return `"${d.word}" has a count of ${d.count}`
+        return d.word + 'has a count of: ' + d.count;
       });
 }
 
 //listens for click on readfile then fires off readFile function
-readFileBtn.addEventListener('click', () => {
+readFileBtn.addEventListener('click', function () {
   var inputFile = document.querySelector('.input-file');
   readFile(inputFile.files[0]);
 })
 
 
 //reads the txt file uploaded on the DOM
-const readFile = function (file) {
+var readFile = function (file) {
   var reader = new FileReader();
   reader.onload = function(text) {
     sendFile(text.target.result);
