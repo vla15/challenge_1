@@ -18,7 +18,6 @@
 // this 1
 // valid 1
 
-
 //selecting dom elements
 const wordCol = document.querySelector('.word');
 const container = document.querySelector('.container');
@@ -38,6 +37,33 @@ const sendFile = function(file) {
       return response.json();
     })
     .then((result) => {
+      var canvas = d3.select('.graphs').append('svg')
+        .attr('width', 1000)
+        .attr('height', 700);
+      canvas.selectAll('rect')
+        .data(result)
+        .enter()
+        .append('rect')
+        .attr('width', (d) => {
+          return d.count * 100;
+        })
+        .attr('height', 50)
+        .attr('y', (d, i) => {
+          return i * 80;
+        })
+        .attr('fill', 'red');
+      canvas.selectAll('text')
+        .data(result)
+        .enter()
+        .append('text')
+        .attr('fill', '#FFFFFF')
+        .attr('y', (d, i) => {
+          return i * 80 + 25;
+        })
+        .attr('x', 5)
+        .text(function (d) {
+          return `"${d.word}" has a count of ${d.count}`
+        });
       result.forEach(el => {
         var row = document.createElement('div');
         var word = document.createElement('div');
@@ -66,6 +92,8 @@ const readFile = function (file) {
   }
   reader.readAsText(file);
 }
+
+
 
 
 // api call to web server
